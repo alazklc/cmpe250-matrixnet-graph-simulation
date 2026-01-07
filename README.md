@@ -1,37 +1,52 @@
-# MatrixNet: Resistance Network Simulation 🟢💻
+# MatrixNet: Resistance Network Simulation
 
-> **CMPE250 - Data Structures and Algorithms Project**
->
-> *A graph-based network simulation engine inspired by "The Matrix". It optimizes covert routing, detects critical infrastructure vulnerabilities, and manages secure tunnels using custom-built algorithms.*
+**Course:** CMPE250 - Data Structures and Algorithms  
+**Context:** Graph Theory & Network Optimization Project
 
-## 📖 About the Project
-**MatrixNet** is a simulation tool designed for the "Resistance" to establish and secure a clandestine network against "Agents". The system models hosts as graph nodes and backdoors as edges with specific properties (bandwidth, latency, firewall level).
+## Project Overview
 
-The core challenge was to implement complex **Graph Algorithms** without using standard Java libraries (no `PriorityQueue` or `HashMap`), requiring high-performance custom implementations to handle massive datasets under strict time constraints.
+MatrixNet is a high-performance graph simulation engine designed to optimize covert routing protocols and analyze network topology under strict constraints. Inspired by the concept of a "Resistance" network, the system models hosts as nodes and secure backdoors as weighted edges, focusing on secure tunnel management and vulnerability detection.
 
-## 🚀 Technical Highlights & Algorithms
-This project implements advanced graph theory concepts and custom data structures:
+This project demonstrates advanced understanding of Graph Theory and low-level data structure implementation. A key constraint of this development was the strictly prohibited use of standard Java Collection libraries (e.g., `PriorityQueue`, `HashMap`), necessitating the creation of custom, highly optimized alternatives.
 
-* **Multi-Objective Shortest Path (Modified Dijkstra):**
-    * Implemented a **Custom Min-Heap** optimized for pathfinding.
-    * Routing logic prioritizes **Latency > Hops > Lexicographical Order** simultaneously.
-    * Supports a dynamic congestion factor ($\lambda$) where edge costs scale based on path length.
-* **Network Vulnerability Analysis:**
-    * **Articulation Points & Bridges:** Simulates node/edge failures to detect critical weak points that would disconnect the network components.
-    * **Cycle Detection:** Uses DFS (Depth-First Search) to identify routing loops.
-    * **Connectivity Scans:** Uses BFS (Breadth-First Search) to count connected components.
-* **Custom Data Structures:**
-    * `CustomHashMap`: A bucket-based hash map with chaining for $O(1)$ host lookups.
-    * `CustomMinHeap`: A binary heap tailored for route objects, supporting zero-allocation path comparisons.
+## Core Capabilities
 
-## 📂 Project Structure
+* **Precision Routing:** Calculates optimal paths based on multi-layered criteria, prioritizing low latency and minimal hop counts while navigating firewall restrictions.
+* **Vulnerability Detection:** Identifies critical points of failure (Articulation Points and Bridges) within the network infrastructure.
+* **Infrastructure Analysis:** Detects routing loops and isolates independent network segments to ensure structural integrity.
+
+## Technical Implementation
+
+The engine relies on custom algorithms and data structures to handle large datasets within strict time and memory limits.
+
+### 1. Multi-Objective Pathfinding (Modified Dijkstra)
+Standard shortest-path algorithms were adapted to handle a hierarchy of optimization criteria. The routing engine minimizes costs based on the following priority:
+1.  **Latency:** The primary weight of the edge.
+2.  **Hop Count:** The number of intermediate nodes.
+3.  **Lexicographical Order:** Tie-breaking mechanism for node identifiers.
+
+The algorithm also supports a dynamic congestion factor ($\lambda$), where edge costs scale relative to the path length, simulating active network load.
+
+### 2. Network Vulnerability Analysis
+MatrixNet implements critical graph traversal algorithms to assess network robustness:
+* **Articulation Points & Bridges:** Simulates node and edge failures to identify components that, if removed, would sever network connectivity.
+* **Cycle Detection:** Utilizes Depth-First Search (DFS) to identify and report routing loops.
+* **Connectivity Scans:** Utilizes Breadth-First Search (BFS) to enumerate and analyze connected components.
+
+### 3. Custom Data Structures
+To meet performance requirements without standard libraries, the following structures were implemented from scratch:
+
+* **`CustomHashMap`:** A bucket-based hash map implementation using chaining for collision resolution. Optimized for $O(1)$ average-case host lookups.
+* **`CustomMinHeap`:** A binary heap specifically tailored for route objects. It supports efficient `decrease-key` operations and zero-allocation path comparisons to accelerate the Dijkstra implementation.
+
+## Project Structure
 
 ```text
 matrixnet-simulation/
 ├── src/
-│   ├── Main.java           # Entry point & Command Parser
-│   ├── MatrixNet.java      # Graph Manager & Algorithms (BFS, DFS, Breach Sim)
-│   ├── CustomMinHeap.java  # Optimized Heap for Dijkstra's Algorithm
-│   ├── CustomHashMap.java  # Hash Map implementation from scratch
-│   ├── Host.java           # Graph Node (Vertex)
-│   └── Backdoor.java       # Graph Edge with weights (Latency, Bandwidth)
+│   ├── Main.java           # Entry point, command parser, and I/O handling
+│   ├── MatrixNet.java      # Core graph manager and algorithm implementations
+│   ├── CustomMinHeap.java  # Optimized binary heap for priority queue operations
+│   ├── CustomHashMap.java  # Native hash map implementation with chaining
+│   ├── Host.java           # Vertex representation (Network Host)
+│   └── Backdoor.java       # Edge representation with weights (Latency, Bandwidth)
